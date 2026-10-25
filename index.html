@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MARTINALEXEI Dental</title>
+<meta name="description" content="Odontología estética y digital. Diseña tu sonrisa y agenda tu cita en línea.">
+<meta name="theme-color" content="#FFFFFF">
+<meta property="og:title" content="MARTINALEXEI Dental">
+<meta property="og:description" content="Odontología estética y digital. Diseña tu sonrisa y agenda tu cita en línea.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- PANTALLA DE CARGA · mismo formato que InsideTrades: fondo liso, marca centrada, frase abajo, salida lenta -->
+<style>
+  html,body{background:#fff}
+  #ld{position:fixed;inset:0;z-index:9999;background:#fff;display:grid;place-items:center}
+  #ld .ld-c img{width:min(300px,64vw);display:block}
+  #ld.out{pointer-events:none;animation:ldVeil var(--xd,3s) linear forwards}
+  #ld.out .ld-c,#ld.out #ld-q{animation:ldLogo var(--xl,1.9s) cubic-bezier(.4,0,.6,1) forwards}
+  @keyframes ldLogo{0%{opacity:1}100%{opacity:0}}
+  @keyframes ldVeil{0%,74%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden}}
+  #ld-q{position:absolute;left:0;right:0;bottom:clamp(26px,6vh,56px);display:flex;justify-content:center;padding:0 28px;pointer-events:none;opacity:0;animation:ldQ 1.4s ease .5s forwards}
+  #ld-q p{display:flex;align-items:flex-start;gap:11px;max-width:640px;font:400 14px/1.55 -apple-system,BlinkMacSystemFont,"Inter","Segoe UI",system-ui,sans-serif;letter-spacing:.015em;color:#82786D}
+  #ld-q svg{flex:none;width:17px;height:17px;margin-top:3px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  @keyframes ldQ{to{opacity:1}}
+  #ld.wait .ld-c{animation:ldBreath 1.8s ease-in-out infinite}
+  @keyframes ldBreath{0%,100%{opacity:1}50%{opacity:.4}}
+  body.is-loading{overflow:hidden}
+  @media (max-width:560px){#ld-q p{font-size:13px}}
+</style>
+<div id="ld" aria-hidden="true">
+  <div class="ld-c"><img src="assets/logo.svg" alt=""></div>
+  <div id="ld-q"><p></p></div>
+</div>
+<script>
+(function () {
+  document.body.classList.add('is-loading');
+  var IC = {
+    smile: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><path d="M9 9h.01M15 9h.01"/>',
+    shield: '<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+    hourglass: '<path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/>',
+    eye: '<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>',
+    pulse: '<path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>',
+    target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'
+  };
+  var Q = [["Una sonrisa sana se construye con constancia, no con prisa.", "hourglass"], ["Prevenir hoy es la mejor inversión en tu sonrisa.", "shield"],
+    ["Cuidar lo pequeño evita tratar lo grande.", "eye"], ["La confianza también se nota al sonreír.", "smile"],
+    ["Un buen diagnóstico es la mitad del tratamiento.", "target"], ["Tu salud bucal habla de tu salud general.", "pulse"],
+    ["Dos minutos de cepillado, todos los días, cambian el resultado.", "hourglass"], ["Lo que se revisa a tiempo, se resuelve con menos.", "eye"],
+    ["Sin dolor, sin prisa y con un plan claro.", "shield"], ["Tu imagen empieza en tu sonrisa.", "smile"]];
+  try {
+    var idx = Math.floor(Date.now() / 7200000) % Q.length;
+    try {
+      var n = parseInt(localStorage.getItem('mxQn') || '0', 10) || 0, cur = parseInt(localStorage.getItem('mxQi'), 10);
+      if (isNaN(cur) || cur < 0 || cur >= Q.length) cur = Math.floor(Math.random() * Q.length);
+      else if (n % 2 === 0) { var nx; do { nx = Math.floor(Math.random() * Q.length); } while (Q.length > 1 && nx === cur); cur = nx; }
+      localStorage.setItem('mxQn', String(n + 1)); localStorage.setItem('mxQi', String(cur)); idx = cur;
+    } catch (e) {}
+    var q = Q[idx], p = document.querySelector('#ld-q p');
+    p.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + IC[q[1]] + '</svg><span></span>';
+    p.lastChild.textContent = q[0];
+  } catch (e) {}
+  var t0 = Date.now(), MIN = 900, MAX = 9000, done = false, holds = [];
+  window.ldHold = function (p) { try { holds.push(Promise.resolve(p).then(function () {}, function () {})); } catch (e) {} };
+  function go() {
+    if (done) return; done = true;
+    var l = document.getElementById('ld');
+    if (!l) { document.body.classList.remove('is-loading'); return; }
+    l.classList.remove('wait'); l.classList.add('out');
+    setTimeout(function () { document.body.classList.remove('is-loading'); window.dispatchEvent(new Event('ld:out')); }, 2200);
+    setTimeout(function () { if (l.parentNode) l.parentNode.removeChild(l); }, 3100);
+  }
+  function ready() {
+    setTimeout(function () {
+      if (done) return;
+      var l = document.getElementById('ld'), left = Math.max(0, MAX - (Date.now() - t0)), all = Promise.all(holds.slice()), pending = true;
+      all.then(function () { pending = false; });
+      setTimeout(function () { if (pending && l && !done) l.classList.add('wait'); }, 120);
+      Promise.race([all, new Promise(function (r) { setTimeout(r, left); })]).then(go);
+    }, Math.max(0, MIN - (Date.now() - t0)));
+  }
+  if (document.readyState !== 'loading') ready(); else document.addEventListener('DOMContentLoaded', ready);
+  setTimeout(go, MAX + 2500);
+})();
+</script>
+
+<div class="progress" id="progress"></div>
+<div class="cursor-glow" aria-hidden="true"></div>
+<div class="cur" id="cur" aria-hidden="true"><span></span></div>
+
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="MARTINALEXEI"><img id="brandImg" src="assets/logo.svg" alt="MARTINALEXEI" height="15"></a>
+  <nav class="nav-links" id="navLinks"></nav>
+  <div class="nav-cta">
+    <a class="btn btn-sm magnet" href="#cita">Agendar cita</a>
+  </div>
+  <button class="burger" id="burger" aria-label="Menú">Menú</button>
+</header>
+<nav class="dots" id="dots" aria-label="Secciones"></nav>
+
+<main id="top">
+
+  <!-- HERO · banner a pantalla completa con muro 3D de videos -->
+  <section class="hero hero3d" id="inicio" data-label="Inicio">
+    <div class="wall-wrap" id="wallWrap" aria-hidden="true"><div class="wall" id="wall"></div></div>
+    <div class="hero-veil" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <p class="eyebrow rv"><b class="pulse" id="openDot"></b><span id="openTxt"></span></p>
+      <h1 class="h1" id="h1"></h1>
+      <p class="lead rv" style="--d:420ms" id="heroSub"></p>
+      <div class="cta-row rv" style="--d:500ms">
+        <a class="btn btn-lg magnet" href="#cita">Agendar cita</a>
+        <a class="link" href="#smilelab">Ver mi sonrisa <i>→</i></a>
+      </div>
+      <div class="next rv" style="--d:580ms" id="heroNext"></div>
+    </div>
+  </section>
+
+  <!-- EXPEDIENTE · dientes reales exhibidos como en un museo -->
+  <section class="sec expo bgp" id="smilelab" data-sec="smilelab" data-label="Expediente">
+    <div class="expo-head">
+      <p class="eyebrow rv">Expediente <span id="expNo"></span></p>
+      <h2 class="h2 split">Tu sonrisa, <em>pieza por pieza.</em></h2>
+    </div>
+    <div class="stage" id="stage">
+      <div class="stage-in" id="stageIn">
+        <canvas id="teethCv" aria-label="Dientes reales"></canvas>
+        <svg class="ovl" id="ovl" aria-hidden="true"></svg>
+        <div class="pieces" id="pieces"></div>
+      </div>
+      <button class="goal" id="labGoal">Ver mi meta</button>
+    </div>
+    <div class="dock rv">
+      <div class="dtabs" id="dTabs" role="tablist"></div>
+      <div class="dopts" id="dOpts"></div>
+    </div>
+    <div class="rec rv" id="rec"></div>
+  </section>
+
+  <!-- TRATAMIENTOS + FINANCIAMIENTO -->
+  <section class="sec bgp" id="tratamientos" data-sec="treatments" data-label="Tratamientos">
+    <p class="eyebrow rv">Tratamientos</p>
+    <h2 class="h2 split">Todo en <em>un lugar.</em></h2>
+    <div class="tx2">
+      <ol class="tx-list" id="txList"></ol>
+      <div class="tx-media cr" id="txMedia" data-cur="Agendar"></div>
+    </div>
+  </section>
+
+  <!-- RESULTADOS -->
+  <section class="sec bgp" id="resultados" data-sec="cases" data-label="Resultados">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow rv">Resultados</p>
+        <h2 class="h2 split">Antes y <em>después.</em></h2>
+      </div>
+      <div class="car-btns rv" data-car="cases"><button data-dir="-1" aria-label="Anterior">←</button><button data-dir="1" aria-label="Siguiente">→</button></div>
+    </div>
+    <div class="car-track cases" id="cases"></div>
+  </section>
+
+  <!-- INSTAGRAM / REELS -->
+  <section class="sec bgp reels-sec" id="redes" data-sec="reels" data-label="Instagram">
+    <div class="sec-head">
+      <div>
+        <p class="eyebrow rv">Instagram</p>
+        <h2 class="h2 split">En <em>movimiento.</em></h2>
+      </div>
+      <div class="car-btns rv" data-car="reels"><span class="tx-count" id="reelCount"></span><button data-dir="-1" aria-label="Anterior">←</button><button data-dir="1" aria-label="Siguiente">→</button></div>
+    </div>
+    <div class="car-track reels" id="reels" data-cur="Arrastra"></div>
+    <div class="car-bar"><i id="reelBar"></i></div>
+    <div class="social" id="social"></div>
+  </section>
+
+  <!-- VISITA · scroll vertical que mueve horizontal -->
+  <section class="hs" id="visita" data-sec="visit" data-label="Tu visita">
+    <div class="hs-sticky">
+      <div class="hs-head">
+        <p class="eyebrow">Tu primera visita</p>
+        <h2 class="h2">Cuatro pasos. <em>Cero sorpresas.</em></h2>
+        <div class="hs-bar"><i id="hsBar"></i></div>
+      </div>
+      <div class="hs-track" id="hsTrack"></div>
+    </div>
+  </section>
+
+  <!-- DOCTOR -->
+  <section class="sec bgp two" id="doctor" data-sec="doctor" data-label="Doctor">
+    <div class="doc-media cr" id="docMedia" data-cur="Ver"></div>
+    <div class="doc-copy">
+      <p class="eyebrow rv" id="docSpec"></p>
+      <h2 class="h2 split" id="docName"></h2>
+      <div id="docBio" class="bio rv"></div>
+      <div class="stats rv" id="stats"></div>
+      <div class="tech rv" id="tech"></div>
+      <ul class="creds rv" id="docCreds"></ul>
+    </div>
+  </section>
+
+  <!-- OPINIONES -->
+  <section class="sec bgp" id="opiniones" data-sec="testimonials" data-label="Opiniones">
+    <div class="q-view rv"><div class="q-track" id="qTrack"></div></div>
+    <div class="q-ctl rv"><button id="qPrev" aria-label="Anterior">←</button><div id="qDots"></div><button id="qNext" aria-label="Siguiente">→</button></div>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="sec booking dk" id="cita" data-sec="booking" data-label="Agendar">
+    <p class="eyebrow rv center">Agenda</p>
+    <h2 class="h2 split center">Reserva <em>tu cita.</em></h2>
+    <p class="lead rv center">Elige tu horario. Queda apartado al instante.</p>
+    <div class="concierge rv">
+      <div class="chat">
+        <div class="chat-log" id="clog"></div>
+        <div class="chat-ctl" id="cctl"></div>
+        <form class="chat-in" id="cform"><input id="cin" placeholder="¿Dudas? Escríbelas aquí" autocomplete="off"><button aria-label="Enviar">Enviar</button></form>
+      </div>
+      <aside class="ticket" id="ticket"></aside>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec bgp narrow" id="faq" data-sec="faq" data-label="Preguntas">
+    <p class="eyebrow rv center">Preguntas</p>
+    <div id="faqList"></div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="sec bgp two" id="contacto" data-sec="contact" data-label="Contacto">
+    <div>
+      <p class="eyebrow rv">Contacto</p>
+      <h2 class="h2 split">Visítanos.</h2>
+      <ul class="contact rv" id="contactList"></ul>
+    </div>
+    <div class="map cr"><iframe id="mapFrame" loading="lazy" title="Mapa"></iframe></div>
+  </section>
+
+  <!-- PANEL DEL CONSULTORIO (oculto hasta abrirlo desde el pie de página) -->
+  <section class="sec panel" id="panel" hidden>
+    <div class="sec-head">
+      <div><p class="eyebrow">Panel del consultorio</p><h2 class="h2">Citas y <em>reels.</em></h2></div>
+      <span class="mode" id="panelMode"></span>
+    </div>
+    <div class="tabs" id="panelTabs"><button class="on" data-t="citas">Citas</button><button data-t="reels">Reels</button></div>
+    <div id="panelBody"></div>
+  </section>
+</main>
+
+<footer class="foot dk">
+  <img src="assets/logo-white.svg" alt="MARTINALEXEI" height="14">
+  <span id="footMeta"></span>
+  <span class="foot-links"><a href="#panel" id="openPanel" hidden>Panel del consultorio</a><a href="marca.html" target="_blank">Marca</a></span>
+</footer>
+
+<a class="wa-float magnet" id="waFloat" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+<a class="fab" href="#cita">Agendar cita</a>
+
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
