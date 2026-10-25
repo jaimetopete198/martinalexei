@@ -645,3 +645,52 @@ html{overflow-x:clip}
 .dopts .shade i{width:clamp(52px,6vw,92px);height:clamp(68px,7.8vw,122px);border-radius:26% 26% 40% 40%/20% 20% 46% 46%;box-shadow:inset 0 -10px 16px rgba(41,43,45,.14),inset 0 6px 8px rgba(255,255,255,.65),0 18px 20px -12px rgba(41,43,45,.35)}
 .dopts .shade.on i{transform:translateY(-8px) scale(1.12)}
 .dopts .shade:hover i{transform:translateY(-6px)}
+
+/* ============ V7 · tamaños proporcionales a la pantalla (laptop y escritorio grande) ============ */
+.sec{padding-block:clamp(64px,11vh,130px)}
+.booking{padding-block:clamp(72px,12vh,140px)}
+.expo{padding-block:clamp(56px,9vh,110px)}
+.h1{font-size:clamp(54px,min(12vw,21vh),220px)}
+.h2{font-size:clamp(42px,min(7.6vw,14vh),150px)}
+.hs-head .h2{font-size:clamp(38px,min(6vw,11vh),110px)}
+.sec-head{margin-bottom:clamp(28px,5vh,64px)}
+.expo-head{margin-bottom:clamp(6px,2vh,24px)}
+.tx2{margin-top:clamp(28px,5vh,64px)}
+.tx-row{font-size:clamp(34px,min(5.4vw,9vh),96px);padding:clamp(3px,.7vh,8px) 0}
+.tx-media{width:min(100%,calc(72vh * .8));margin-left:auto}
+.stage{padding-block:clamp(20px,4vh,48px)}
+.stage-in{width:min(100%,calc(80vh * 1.5));margin-inline:auto}
+.cases>.case{width:min(760px,82vw,calc(62vh * 1.3333))}
+.doc-media{width:min(100%,calc(74vh * .8))}
+.concierge{margin-top:clamp(32px,6vh,70px)}
+.rec{margin-top:clamp(36px,6vh,80px)}
+.hero3d .hero-copy{padding-top:clamp(0px,2vh,30px)}
+.hs{height:270vh}
+.hs-sticky{gap:clamp(18px,3.4vh,40px)}
+.q-slide{min-height:0}
+.q-slide p{font-size:clamp(32px,min(5.6vw,11vh),110px)}
+.q-ctl{margin-top:clamp(22px,4vh,40px)}
+summary{font-size:clamp(24px,min(3.4vw,7vh),56px);padding:clamp(10px,2vh,20px) 0}
+.stats b{font-size:clamp(38px,min(5vw,9vh),88px)}
+.dopts{margin-top:clamp(14px,3vh,26px)}
+.contact{margin-top:clamp(24px,4vh,48px)}
+.map{max-height:70vh}
+@media(max-width:960px){
+  .h1{font-size:clamp(54px,17vw,120px)}
+  .h2{font-size:clamp(44px,14vw,96px)}
+  .hs-head .h2{font-size:clamp(36px,11vw,64px)}
+  .tx-row{font-size:clamp(32px,10vw,60px)}
+  .tx-media{width:100%;margin-left:0}
+  .stage-in{width:100%}
+  .doc-media{width:100%;max-width:420px}
+  .q-slide p{font-size:clamp(30px,9vw,60px)}
+  summary{font-size:clamp(22px,6.4vw,38px)}
+  .sec{padding-block:clamp(56px,9vh,96px)}
+  .hs{height:250vh}
+}
+@media(max-width:960px){
+  .stage{display:block;overflow:hidden;border-radius:28px;padding:0;margin-inline:0;position:relative}
+  .stage-in{width:175%;max-width:none;margin:0 0 0 -67%}
+  #teethCv{border-radius:0;box-shadow:none}
+  .pc b{font-size:15px;margin-top:6px}
+}
